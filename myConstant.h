@@ -1,4 +1,4 @@
-// FILE
+// path file
 const char inputFilePath[] = "input.txt";
 const char outputFilePath[] = "output.txt";
 
