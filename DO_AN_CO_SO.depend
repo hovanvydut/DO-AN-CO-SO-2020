@@ -1,5 +1,11 @@
 # depslib dependency file v1.0
-1589469377 source:e:\doan\do_an_co_so\main.cpp
+1589534921 source:e:\doan\do_an_co_so\main.cpp
 	<stdio.h>
 	<graphics.h>
+	"calculate-utility.h"
+	"myConstant.h"
+
+1589473019 e:\doan\do_an_co_so\calculate-utility.h
+
+1589529947 e:\doan\do_an_co_so\myconstant.h
 
