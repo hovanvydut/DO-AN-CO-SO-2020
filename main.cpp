@@ -3,90 +3,80 @@
 #include "calculate-utility.h"
 #include "myConstant.h"
 
+void showFirstMenu() {
 
+}
 int main() {
+    int i;
+    char keyPress;
     initwindow(windowWidth, windowHeight);
+    int maxx = getmaxx();
+    int hmaxx = maxx / 2;
+    int maxy = getmaxy();
+    int hmaxy = maxy / 2;
 
-    // Body
-    const int mlBody = 10, mtBody = 10, mrBody = 10, mbBody = 10;
-    const int lBody = mlBody;
-    const int tBody = mtBody;
-    const int rBody = getmaxx() - mrBody;
-    const int bBody = getmaxy() - mbBody;
+MENU_FIRST:
+    cleardevice();
     setcolor(3);
-    rectangle(lBody, tBody, rBody, bBody);
-
-    // Header
-    const int heightHeader = 100, pdHeader = 10;
-    const int mlHeader = 10, mtHeader = 10, mrHeader = 10, mbHeader = 10;
-    const int lHeader = lBody + mlHeader;
-    const int tHeader = tBody + tHeader + mtHeader;
-    const int rHeader = getmaxx() - mrBody - mrHeader;
-    const int bHeader = tBody + tHeader + heightHeader;
-    setcolor(3);
-    rectangle(lHeader, tHeader, rHeader, bHeader);
-    settextstyle(9, 0, 1);
+    rectangle(10, 10, maxx - 10, maxy - 10);
+    settextstyle(3, 0, 4);
+    char *txt1[] = {"DO AN CO SO", "Ma de tai: 802 - GVHD: Nguyen Van Nguyen", "SV: Ho Van Vy | MSV: 102190200 | 19TCLC_DT4", "MENU", "Nhan Enter de mo menu, Esc de thoat chuong trinh"};
+    outtextxy(hmaxx - textwidth(txt1[0]) / 2, 20, txt1[0]);
+    setcolor(2);
+    settextstyle(3, 0, 2);
+    outtextxy(hmaxx - textwidth(txt1[1]) / 2, 90, txt1[1]);
+    outtextxy(hmaxx - textwidth(txt1[2]) / 2, 120, txt1[2]);
     setcolor(4);
-    outtextxy(lHeader + pdHeader, tHeader + pdHeader, "Danang University of Science and Technology");
-
-    // Menu
-    const int mlMenu = 10, mtMenu = 10, mrMenu = 10, mbMenu = 10, pdMenu = 5;
-    const int lMenu = lBody + mlMenu;
-    const int tMenu = tBody + tHeader + heightHeader + mtMenu;
-    const int rMenu = (getmaxx() - mlBody - mrBody) / 3 - (mlMenu + mrMenu) + lMenu;
-    const int bMenu = getmaxy() - mbBody - mbMenu;
+    settextstyle(3, 0, 4);
+    outtextxy(hmaxx - textwidth(txt1[3]) / 2, hmaxy - textheight(txt1[3]) / 2, txt1[3]);
     setcolor(3);
-    rectangle(lMenu, tMenu, rMenu , bMenu);
+    settextstyle(3, 0, 2);
+    outtextxy(hmaxx - textwidth(txt1[4]) / 2, maxy - 20, txt1[4]);
 
-    char *textMenu[] = {"1. Thong tin do an", "2. Nhap du lieu tu file",
-                        "3. Nhap du lieu tu ban phim", "4. Thoat"};
-    const int textMenuLength = 4;
-    settextstyle(8, 0, 2);
-    setcolor(5);
-    int tmp = 0;
-    for (int i = 0; i < textMenuLength; i++) {
-        tmp += textheight(textMenu[i]);
-        outtextxy(lMenu + pdMenu, tMenu + pdMenu + tmp, textMenu[i]);
+    do {
+        keyPress = getch();
+        printf("\a");
+    } while (keyPress != ENTER && keyPress != ESC);
+    if (keyPress == ESC) exit(0);
+
+    cleardevice();
+    setcolor(3);
+    rectangle(10, 10, maxx - 10, maxy - 10);
+    char *mainMenuList[] = {"Nhap du lieu tu file", "Nhap du lieu tu ban phim", "Thoat"};
+    int lengthMainMenuList = 3;
+    int tmp = maxy / 3;
+    settextstyle(3, 0, 2);
+    for (i = 0; i < lengthMainMenuList; i++) {
+        if (i == 0)
+            setcolor(4);
+        else
+            setcolor(2);
+        tmp += textheight(mainMenuList[i]) + 10;
+        outtextxy(hmaxx - textwidth(mainMenuList[i]) / 2, tmp, mainMenuList[i]);
     }
 
-    int choiceMenu = 1;
-    char c;
+    int choice = 0;
     do {
-        c = getch();
-        switch(c) {
-            case DOWN_ARROW: {
-                choiceMenu++;
-                if (choiceMenu > textMenuLength)
-                    choiceMenu = 1;
-                if (choiceMenu < 1)
-                    choiceMenu = 1;
-                break;
-            }
-            case UP_ARROW: {
-                choiceMenu--;
-                if (choiceMenu > textMenuLength)
-                    choiceMenu = 1;
-                if (choiceMenu < 1)
-                    choiceMenu = textMenuLength;
-                break;
-            }
-        }
+        keyPress = getch();
+        printf("\a");
+        if (keyPress == UP_ARROW) choice = (choice - 1) < 0 ? lengthMainMenuList - 1 : choice - 1;
+        else if (keyPress == DOWN_ARROW) choice = (choice + 1) % lengthMainMenuList;
 
         cleardevice();
         setcolor(3);
-        rectangle(lBody, tBody, rBody, bBody);
-        setcolor(3);
-        rectangle(lHeader, tHeader, rHeader, bHeader);
-        settextstyle(9, 0, 1);
-        setcolor(4);
-        outtextxy(lHeader + pdHeader, tHeader + pdHeader, "Danang University of Science and Technology");
-        setcolor(3);
-        rectangle(lMenu, tMenu, rMenu , bMenu);
-
-        tmp = 0;
-        settextstyle(8, 0, 2);
-        for (int i = 0; i < -1; i++);
-    } while (c != ENTER);
+        rectangle(10, 10, maxx - 10, maxy - 10);
+        settextstyle(3, 0, 2);
+        tmp = maxy / 3;
+        for (i = 0; i < lengthMainMenuList; i++) {
+            if (i == choice)
+                setcolor(4);
+            else
+                setcolor(2);
+            tmp += textheight(mainMenuList[i]) + 10;
+            outtextxy(hmaxx - textwidth(mainMenuList[i]) / 2, tmp, mainMenuList[i]);
+        }
+    } while (keyPress != ENTER);
+    if (choice == lengthMainMenuList - 1) goto MENU_FIRST;
 
     // clear
     getch();

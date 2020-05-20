@@ -6,8 +6,8 @@ const char outputFilePath[] = "output.txt";
 const int MAX_LENGTH_ARRAY = 10000;
 
 // configure
-const int windowWidth = 1200;
-const int windowHeight = 700;
+const int windowWidth = 800;
+const int windowHeight = 500;
 
 const int LEFT_ARROW = 75;
 const int UP_ARROW = 72;
