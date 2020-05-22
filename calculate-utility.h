@@ -53,3 +53,12 @@ int writeDataToFile(const char path[], int arr[], int n) {
     fclose(fileOutput);
     return 1;
 }
+
+int char2Number(char ch[], int len) {
+    int sum = 0, pow = 1, i = 0;
+    for (i = len - 1; i >= 0; i--) {
+        sum += (ch[i] - 48) * pow;
+        pow *= 10;
+    }
+    return sum;
+}

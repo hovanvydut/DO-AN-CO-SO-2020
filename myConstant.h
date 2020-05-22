@@ -15,5 +15,7 @@ const int RIGHT_ARROW = 77;
 const int DOWN_ARROW = 80;
 const int ENTER = 13;
 const int ESC = 27;
+const int BACKSPACE = 8;
+const int TAB = 9;
 
 

@@ -1,11 +1,15 @@
 # depslib dependency file v1.0
-1590009927 source:e:\doan\do_an_co_so\main.cpp
+1590181737 source:e:\doan\do_an_co_so\main.cpp
 	<stdio.h>
 	<graphics.h>
 	"calculate-utility.h"
 	"myConstant.h"
+	<string.h>
+	"myViewFunc.h"
 
-1589473019 e:\doan\do_an_co_so\calculate-utility.h
+1590180912 e:\doan\do_an_co_so\calculate-utility.h
 
-1589940223 e:\doan\do_an_co_so\myconstant.h
+1590181291 e:\doan\do_an_co_so\myconstant.h
+
+1590180902 e:\doan\do_an_co_so\myviewfunc.h
 
