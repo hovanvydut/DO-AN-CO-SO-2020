@@ -18,7 +18,7 @@ void showFirstMenu(int maxx, int hmaxx, int maxy, int hmaxy) {
     outtextxy(hmaxx - textwidth(txt1[4]) / 2, maxy - 20, txt1[4]);
 }
 
-void showMenu2(int maxx, int hmaxx, int maxy, int hmaxy, int choice, char *menuList[], int lenMenu) {
+void showMenu2(int maxx, int hmaxx, int maxy, int hmaxy, int choice, char *menuList[], int lenMenu, char guide[]) {
     int i;
     cleardevice();
     setcolor(3);
@@ -34,7 +34,7 @@ void showMenu2(int maxx, int hmaxx, int maxy, int hmaxy, int choice, char *menuL
         tmp += textheight(menuList[i]) + 10;
         outtextxy(hmaxx - textwidth(menuList[i]) / 2, tmp, menuList[i]);
     }
-    char guide[] = "Dung phim mui ten de di chuyen len xuong, Enter de chon";
+
     setcolor(3);
     settextstyle(3, 0, 2);
     outtextxy(hmaxx - textwidth(guide) / 2, maxy - 20, guide);
@@ -56,7 +56,7 @@ void showBox(int maxx, int hmaxx, int maxy, int hmaxy, int chooseBox, int height
 
     setcolor(3);
     rectangle(10, 10, maxx - 10, maxy - 10);
-        char guide[] = "Dung phim tab de di chuyen giua cac box, enter de xac nhan";
+        char guide[] = "Dung phim tab de di chuyen giua cac box, enter de xac nhan, ESC de quay lui";
     setcolor(3);
     settextstyle(3, 0, 2);
     outtextxy(hmaxx - textwidth(guide) / 2, maxy - 20, guide);

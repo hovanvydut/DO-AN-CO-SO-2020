@@ -11,14 +11,7 @@ int main() {
     int choice;
     int heightBox = 40, widthBox = 200, marginBox = 25;
 
-    // Menu 2
-    char *mainMenuList[] = {"Nhap du lieu tu file", "Nhap du lieu tu ban phim", "Thoat"};
-    int lengthMainMenuList = 3;
-
-    //
-    char *outputScreenMenu[] = {"Xuat ra man hinh", "Xuat ra file"};
-    int lengthOutputScreenMenu = 2;
-
+    // initial config
     initwindow(windowWidth, windowHeight);
     int maxx = getmaxx();
     int hmaxx = maxx / 2;
@@ -33,8 +26,12 @@ MENU_FIRST:
     } while (keyPress != ENTER && keyPress != ESC);
     if (keyPress == ESC) exit(0);
 
-
-    showMenu2(maxx, hmaxx, maxy, hmaxy, 0, mainMenuList, lengthMainMenuList);
+MENU_SECOND:
+    // Menu 2
+    char *mainMenuList[] = {"Nhap du lieu tu file", "Nhap du lieu tu ban phim"};
+    int lengthMainMenuList = 2;
+    char guide1[] = "Dung phim mui ten de di chuyen len xuong, Enter de chon, ESC de quay lui";
+    showMenu2(maxx, hmaxx, maxy, hmaxy, 0, mainMenuList, lengthMainMenuList, guide1);
 
     choice = 0;
     do {
@@ -45,13 +42,11 @@ MENU_FIRST:
             choice = (choice - 1) < 0 ? lengthMainMenuList - 1 : choice - 1;
         else if (keyPress == DOWN_ARROW)
             choice = (choice + 1) % lengthMainMenuList;
-
-        showMenu2(maxx, hmaxx, maxy, hmaxy, choice, mainMenuList, lengthMainMenuList);
+        else if (keyPress == ESC) {
+            goto MENU_FIRST;
+        }
+        showMenu2(maxx, hmaxx, maxy, hmaxy, choice, mainMenuList, lengthMainMenuList, guide1);
     } while (keyPress != ENTER);
-
-    // Quay lai main menu
-    if (choice == lengthMainMenuList - 1)
-        goto MENU_FIRST;
 
     // Nhap du lieu tu file
     if (choice + 1 == 1) {
@@ -86,6 +81,8 @@ MENU_FIRST:
             n = char2Number(ch, it);
             if (tmp == TAB) {
                 goto BOX2;
+            } else if (tmp == ESC) {
+                goto MENU_SECOND;
             }
             keyPressLocal = tmp;
             cleardevice();
@@ -116,6 +113,8 @@ MENU_FIRST:
             h = char2Number(ch2, it2);
             if (tmp == TAB) {
                 goto BOX1;
+            } else if (tmp == ESC) {
+                goto MENU_SECOND;
             }
             keyPressLocal = tmp;
             cleardevice();
@@ -124,8 +123,56 @@ MENU_FIRST:
             outtextxy(hmaxx - widthBox / 2 + 5, hmaxy + (heightBox + marginBox) - heightBox / 2 - textheight(ch2) / 2, ch2);
         } while (keyPressLocal != ENTER);
 
-        printf("%d %d", n, h);
-        //showMenu2(maxx, hmaxx, maxy, hmaxy, 0, outputScreenMenu, lengthOutputScreenMenu);
+        if (n <= 0 || n >= 1e8 || h <= 0 || h >= 58) {
+            char text[] = "Vui long nhap 0 < N < 10^8, 0 < H < 58";
+            outtextxy(hmaxx - textwidth(text) / 2, hmaxy - marginBox - heightBox - textheight(text) - 20, text);
+            getch();
+            goto BOX1;
+        }
+
+        cleardevice();
+        char *menuTmp[] = {"Xuat file", "Xuat man hinh"};
+        int lengthMenuTmp = 2;
+        char guide3[] = "Dung phim mui ten de di chuyen len xuong, Enter de chon, ESC de quay lui";
+        showMenu2(maxx, hmaxx, maxy, hmaxy, 0, menuTmp, lengthMenuTmp, guide3);
+        choice = 0;
+        do {
+            keyPress = getch();
+            printf("\a");
+
+            if (keyPress == UP_ARROW)
+                choice = (choice - 1) < 0 ? lengthMainMenuList - 1 : choice - 1;
+            else if (keyPress == DOWN_ARROW)
+                choice = (choice + 1) % lengthMainMenuList;
+            else if (keyPress == ESC) {
+                goto BOX1;
+            }
+            char guide4[] = "Dung phim mui ten de di chuyen len xuong, Enter de chon, ESC de quay lui";
+            showMenu2(maxx, hmaxx, maxy, hmaxy, choice, menuTmp, lengthMenuTmp, guide4);
+        } while (keyPress != ENTER);
+
+        cleardevice();
+        int arr[n + 1];
+        printf("%d %d\n", n, h);
+        Eratosthenes(arr, n);
+        i = 0;
+        int numEachLine = 0;
+        int numOfLine = 0;
+        for (i = 0; i <= n; i++) {
+            numEachLine++;
+            int spaceX = 20;
+            int spaceY = 20;
+            if (arr[i] == 0 && heightNumber(i) == h) {
+                printf("%d\t", i);
+                char chTmp[100];
+                number2Char(i, chTmp);
+                outtextxy(numEachLine * i, numOfLine * i, chTmp);
+            }
+            if (numEachLine == 7) {
+                numEachLine = 0;
+                numEachLine++;
+            }
+        }
     }
 
     // clear

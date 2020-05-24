@@ -8,7 +8,7 @@ void Eratosthenes(int arr[], int n) {
     arr[0] = 1; arr[1] = 1;
 
     // LCM of a prime number is non-prime number, so set they equal 1
-    for (int i = 2; i < n; i++) {
+    for (int i = 2; i <= n; i++) {
         if (arr[i] == 0) {
             for (int j = i * i; j <= n; j = j + i) {
                 arr[j] = 1;
@@ -19,10 +19,11 @@ void Eratosthenes(int arr[], int n) {
 
 int heightNumber(int n) {
     int sumOfDigit = 0;
-    while (n != 0) {
+    while (n > 0) {
         sumOfDigit += n % 10;
         n /= 10;
     }
+    return sumOfDigit;
 }
 
 // @ return 1 --> read file OK, return 0 --> read file ERROR
@@ -57,8 +58,22 @@ int writeDataToFile(const char path[], int arr[], int n) {
 int char2Number(char ch[], int len) {
     int sum = 0, pow = 1, i = 0;
     for (i = len - 1; i >= 0; i--) {
-        sum += (ch[i] - 48) * pow;
+        sum += (ch[i] - '0') * pow;
         pow *= 10;
     }
     return sum;
+}
+
+void number2Char (int num, char ch[]) {
+    int tmp = num;
+    int numOfDigit = 0;
+    while (tmp > 0) {
+        tmp /= 10;
+        numOfDigit++;
+    }
+    for (int i = numOfDigit - 1; i >= 0; i--) {
+        ch[i] = num % 10 + '0';
+        num /= 10;
+    }
+    ch[numOfDigit] = '\0';
 }
