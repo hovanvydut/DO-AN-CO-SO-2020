@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <math.h>
 #include <graphics.h>
 #include "calculate-utility.h"
 #include "myConstant.h"
@@ -123,8 +124,9 @@ MENU_SECOND:
             outtextxy(hmaxx - widthBox / 2 + 5, hmaxy + (heightBox + marginBox) - heightBox / 2 - textheight(ch2) / 2, ch2);
         } while (keyPressLocal != ENTER);
 
-        if (n <= 0 || n >= 1e8 || h <= 0 || h >= 58) {
-            char text[] = "Vui long nhap 0 < N < 10^8, 0 < H < 58";
+        // Dieu kien bai toan
+        if (n < 10 || n > 1e6 || h < 1 || h > 54) {
+            char text[] = "Vui long nhap 10 <= N <= 10^6, 1 <= H <= 54";
             outtextxy(hmaxx - textwidth(text) / 2, hmaxy - marginBox - heightBox - textheight(text) - 20, text);
             getch();
             goto BOX1;
@@ -151,26 +153,51 @@ MENU_SECOND:
             showMenu2(maxx, hmaxx, maxy, hmaxy, choice, menuTmp, lengthMenuTmp, guide4);
         } while (keyPress != ENTER);
 
-        cleardevice();
+        // Thuc hien tinh toan, san nguyen to
         int arr[n + 1];
-        printf("%d %d\n", n, h);
         Eratosthenes(arr, n);
-        i = 0;
-        int numEachLine = 0;
-        int numOfLine = 0;
-        for (i = 0; i <= n; i++) {
-            numEachLine++;
-            int spaceX = 20;
-            int spaceY = 20;
-            if (arr[i] == 0 && heightNumber(i) == h) {
-                printf("%d\t", i);
-                char chTmp[100];
-                number2Char(i, chTmp);
-                outtextxy(numEachLine * i, numOfLine * i, chTmp);
+
+        if (choice == 0) {
+            writeDataToFile(outputFilePath, arr, n, h);
+            cleardevice();
+            char text[] = "Vui long xem ket qua o file ./output.txt";
+            outtextxy(hmaxx - textwidth(text) / 2, hmaxy - textheight(text) / 2, text);
+            getch();
+            goto BOX1;
+        }
+
+        // Xuat ket qua ra man hinh
+        if (choice == 1) {
+            cleardevice();
+            setcolor(3);
+            rectangle(10, 10, maxx - 10, maxy - 10);
+
+            i = 0;
+            int numOfCol = floor((windowWidth - 20) / 100.0);
+            int col = -1, row = 20;
+            int quantity = 0;
+
+            for (i = 0; i <= n; i++) {
+                if (arr[i] == 0 && heightNumber(i) == h) {
+                    quantity++;
+                    col++;
+                    char chTmp[100];
+                    number2Char(i, chTmp);
+                    outtextxy(col * 100 + 20, row, chTmp);
+                }
+                if (col == numOfCol) {
+                    col = -1;
+                    row += 20;
+                }
             }
-            if (numEachLine == 7) {
-                numEachLine = 0;
-                numEachLine++;
+
+            char quantityChar[100];
+            number2Char(quantity, quantityChar);
+            setcolor(4);
+            outtextxy(hmaxx - textwidth(quantityChar) / 2, maxy - 20 - textheight(quantityChar), quantityChar);
+            choice = getch();
+            if (choice == ESC || choice == ENTER) {
+                goto BOX1;
             }
         }
     }

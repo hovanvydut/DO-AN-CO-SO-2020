@@ -40,16 +40,22 @@ int readDataFromFile(const char path[], int n, int h) {
     return 1;
 }
 
-int writeDataToFile(const char path[], int arr[], int n) {
+int writeDataToFile(const char path[], int arr[], int n, int h) {
     FILE *fileOutput = fopen(path, "w");
 
     if (fileOutput == NULL) {
         return 0;
     }
 
+    int count = 0;
     for (int i = 0; i < n; i++) {
-        fprintf(fileOutput, "%d ", arr[i]);
+        if (arr[i] == 0 && heightNumber(i) == h) {
+            count++;
+            fprintf(fileOutput, "%d\t", i);
+        }
     }
+    fprintf(fileOutput, "\r\n");
+    fprintf(fileOutput, "Co tat ca %d so nguyen to co chieu cao la % trong doan [10, %d]", count, h, n);
 
     fclose(fileOutput);
     return 1;
