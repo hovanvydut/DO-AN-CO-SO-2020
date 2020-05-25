@@ -8,7 +8,7 @@ void Eratosthenes(int arr[], int n) {
     arr[0] = 1; arr[1] = 1;
 
     // LCM of a prime number is non-prime number, so set they equal 1
-    for (int i = 2; i <= n; i++) {
+    for (int i = 2; i * i <= n; i++) {
         if (arr[i] == 0) {
             for (int j = i * i; j <= n; j = j + i) {
                 arr[j] = 1;

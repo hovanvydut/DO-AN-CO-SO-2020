@@ -5,6 +5,7 @@
 #include "myConstant.h"
 #include <string.h>
 #include "myViewFunc.h"
+#include <malloc.h>
 
 int main() {
     int i;
@@ -154,7 +155,7 @@ MENU_SECOND:
         } while (keyPress != ENTER);
 
         // Thuc hien tinh toan, san nguyen to
-        int arr[n + 1];
+        int *arr = (int*)malloc(sizeof(int) * (n + 1));
         Eratosthenes(arr, n);
 
         if (choice == 0) {
@@ -191,10 +192,14 @@ MENU_SECOND:
                 }
             }
 
+            char infoText[] = "Co tat ca ";
             char quantityChar[100];
             number2Char(quantity, quantityChar);
+            strcat(infoText, quantityChar);
+            strcat(infoText, " so.");
+
             setcolor(4);
-            outtextxy(hmaxx - textwidth(quantityChar) / 2, maxy - 20 - textheight(quantityChar), quantityChar);
+            outtextxy(hmaxx - textwidth(quantityChar) / 2, maxy - textheight(quantityChar), quantityChar);
             choice = getch();
             if (choice == ESC || choice == ENTER) {
                 goto BOX1;
