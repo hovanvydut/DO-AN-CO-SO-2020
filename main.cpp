@@ -13,6 +13,13 @@ int main() {
     int choice;
     int heightBox = 40, widthBox = 200, marginBox = 25;
 
+    int n, h, keyPressLocal;
+    char ch[100] = "";
+    int it = 0, it2 = 0;
+    char ch2[100] = "";
+    // 0: goto BOX1, 1: goto INPUT_DATA_FROM_FILE
+    int route = 0;
+
     // initial config
     initwindow(windowWidth, windowHeight);
     int maxx = getmaxx();
@@ -52,6 +59,7 @@ MENU_SECOND:
 
     // Nhap du lieu tu file
     if (choice + 1 == 1) {
+INPUT_DATA_FROM_FILE:
         // ve khung bao quanh
         cleardevice();
         setcolor(3);
@@ -80,20 +88,31 @@ MENU_SECOND:
             outtextxy(hmaxx - widthBox / 2 + 5, hmaxy - (heightBox + marginBox) + heightBox / 2 - textheight(fileInputName) / 2, fileInputName);
         } while (keyPressLocal != ENTER);
 
-        int *n = 0;
-        int *h = 0;
-        printf("%s\n", fileInputName);
-        int errorFile = readDataFromFile(fileInputName, n, h);
-        printf("%d %d", *n, *h);
+        fileInputName[it - 1] = '\0';
+        int errStatus = readDataFromFile(fileInputName, &n, &h);
+        if (errStatus == 0) {
+            char textError[] = "File khong ton tai. Vui long nhap lai ten file!";
+            setcolor(4);
+            outtextxy(hmaxx - textwidth(textError) / 2, hmaxy - marginBox - heightBox - textheight(textError) - 20, textError);
+            getch();
+            goto INPUT_DATA_FROM_FILE;
+        } else {
+            // Dieu kien bai toan
+            if (n < 10 || n > 1e6 || h < 1 || h > 54) {
+                setcolor(3);
+                char text[] = "Vui long nhap 10 <= N <= 10^6, 1 <= H <= 54";
+                outtextxy(hmaxx - textwidth(text) / 2, hmaxy - marginBox - heightBox - textheight(text) - 20, text);
+                getch();
+                goto INPUT_DATA_FROM_FILE;
+            }
+            goto EXPORT_DATA;
+        }
 
     // Nhap du lieu tu ban phim
     } else if (choice + 1 == 2) {
-        int n, h, keyPressLocal;
-        char ch[100] = "";
-        int it = 0, it2 = 0;
-        char ch2[100] = "";
-
-        BOX1:
+    INPUT_DATA_FROM_KEYBOARD:
+        route = 0;
+    BOX1:
         // nhap so n
         showBox(maxx, hmaxx, maxy, hmaxy, 1, heightBox, widthBox, marginBox);
         outtextxy(hmaxx - widthBox / 2 + 5, hmaxy - (heightBox + marginBox) + heightBox / 2 - textheight(ch) / 2, ch);
@@ -125,7 +144,7 @@ MENU_SECOND:
         } while (keyPressLocal != ENTER);
 
 
-        BOX2:
+    BOX2:
         // nhap chieu cao h
         cleardevice();
         showBox(maxx, hmaxx, maxy, hmaxy, 2, heightBox, widthBox, marginBox);
@@ -147,6 +166,7 @@ MENU_SECOND:
             if (tmp == TAB) {
                 goto BOX1;
             } else if (tmp == ESC) {
+                route = 1;
                 goto MENU_SECOND;
             }
             keyPressLocal = tmp;
@@ -163,7 +183,7 @@ MENU_SECOND:
             getch();
             goto BOX1;
         }
-
+    EXPORT_DATA:
         // MENU
         cleardevice();
         char *menuTmp[] = {"Xuat file", "Xuat man hinh"};
@@ -248,7 +268,11 @@ MENU_SECOND:
         PAGINATION2:
             keyPress = getch();
             if (keyPress == ESC || keyPress == ENTER) {
-                goto BOX1;
+                if (route == 1) {
+                    goto INPUT_DATA_FROM_FILE;
+                } else {
+                    goto BOX1;
+                }
             } else if (keyPress == DOWN_ARROW) {
                 currentPage = currentPage >= pages ? 1 : currentPage + 1;
                 goto PAGINATION;
