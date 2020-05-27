@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1590441874 source:e:\doan\do_an_co_so\main.cpp
+1590546152 source:e:\doan\do_an_co_so\main.cpp
 	<stdio.h>
 	<math.h>
 	<graphics.h>
@@ -9,9 +9,9 @@
 	"myViewFunc.h"
 	<malloc.h>
 
-1590441757 e:\doan\do_an_co_so\calculate-utility.h
+1590546205 e:\doan\do_an_co_so\calculate-utility.h
 
 1590181291 e:\doan\do_an_co_so\myconstant.h
 
-1590335559 e:\doan\do_an_co_so\myviewfunc.h
+1590545058 e:\doan\do_an_co_so\myviewfunc.h
 

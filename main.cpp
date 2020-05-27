@@ -24,7 +24,7 @@ MENU_FIRST:
     showFirstMenu(maxx, hmaxx, maxy, hmaxy);
     do {
         keyPress = getch();
-        printf("\a");
+        if (keyPress != 0) printf("\a");
     } while (keyPress != ENTER && keyPress != ESC);
     if (keyPress == ESC) exit(0);
 
@@ -38,7 +38,7 @@ MENU_SECOND:
     choice = 0;
     do {
         keyPress = getch();
-        printf("\a");
+        if (keyPress != 0) printf("\a");
 
         if (keyPress == UP_ARROW)
             choice = (choice - 1) < 0 ? lengthMainMenuList - 1 : choice - 1;
@@ -52,8 +52,39 @@ MENU_SECOND:
 
     // Nhap du lieu tu file
     if (choice + 1 == 1) {
+        // ve khung bao quanh
         cleardevice();
-        outtext("Nhap du lieu tu file");
+        setcolor(3);
+        rectangle(10, 10, maxx - 10, maxy - 10);
+
+        char fileInputName[100];
+        int it = 0, keyPressLocal;
+        showBox(maxx, hmaxx, maxy, hmaxy, 0, heightBox, widthBox, marginBox);
+        do {
+            char tmp = getch();
+            if (tmp != 0)  printf("\a");
+
+            if (tmp == BACKSPACE) {
+                it = it < 0 ? 0 : it - 1;
+                fileInputName[it] = '\0';
+            } else if (tmp == ESC) {
+                goto MENU_SECOND;
+            } else {
+                fileInputName[it] = tmp;
+                fileInputName[it + 1] = '\0';
+                it++;
+            }
+            keyPressLocal = tmp;
+            cleardevice();
+            showBox(maxx, hmaxx, maxy, hmaxy, 0, heightBox, widthBox, marginBox);
+            outtextxy(hmaxx - widthBox / 2 + 5, hmaxy - (heightBox + marginBox) + heightBox / 2 - textheight(fileInputName) / 2, fileInputName);
+        } while (keyPressLocal != ENTER);
+
+        int *n = 0;
+        int *h = 0;
+        printf("%s\n", fileInputName);
+        int errorFile = readDataFromFile(fileInputName, n, h);
+        printf("%d %d", *n, *h);
 
     // Nhap du lieu tu ban phim
     } else if (choice + 1 == 2) {
@@ -69,7 +100,7 @@ MENU_SECOND:
         outtextxy(hmaxx - widthBox / 2 + 5, hmaxy + (heightBox + marginBox) - heightBox / 2 - textheight(ch2) / 2, ch2);
         do {
             char tmp = getch();
-            printf("\a");
+            if (tmp != 0)  printf("\a");
             if (tmp >= 48 && tmp <= 57) {
                 ch[it] = tmp;
                 ch[it + 1] = '\0';
@@ -102,7 +133,7 @@ MENU_SECOND:
             outtextxy(hmaxx - widthBox / 2 + 5, hmaxy + (heightBox + marginBox) - heightBox / 2 - textheight(ch2) / 2, ch2);
         do {
             char tmp = getch();
-            printf("\a");
+            if (tmp != 0)  printf("\a");
             if (tmp >= 48 && tmp <= 57) {
                 ch2[it2] = tmp;
                 ch2[it2 + 1] = '\0';
@@ -133,6 +164,7 @@ MENU_SECOND:
             goto BOX1;
         }
 
+        // MENU
         cleardevice();
         char *menuTmp[] = {"Xuat file", "Xuat man hinh"};
         int lengthMenuTmp = 2;
@@ -141,8 +173,7 @@ MENU_SECOND:
         choice = 0;
         do {
             keyPress = getch();
-            printf("\a");
-
+            if (keyPress != 0) printf("\a");
             if (keyPress == UP_ARROW)
                 choice = (choice - 1) < 0 ? lengthMainMenuList - 1 : choice - 1;
             else if (keyPress == DOWN_ARROW)
@@ -169,22 +200,30 @@ MENU_SECOND:
 
         // Xuat ket qua ra man hinh
         if (choice == 1) {
+            int currentPage = 1;
+            int numOfCol = floor((windowWidth - 20) / 100.0);
+            const int MAX_NUMBER_EACH_PAGE = 168; // 21 * 8
+
+        PAGINATION:
+            // ve khung bao quanh
             cleardevice();
             setcolor(3);
             rectangle(10, 10, maxx - 10, maxy - 10);
 
             i = 0;
-            int numOfCol = floor((windowWidth - 20) / 100.0);
-            int col = -1, row = 20;
             int quantity = 0;
+            int col = -1, row = 20;
 
             for (i = 0; i <= n; i++) {
                 if (arr[i] == 0 && heightNumber(i) == h) {
                     quantity++;
-                    col++;
+                    if (quantity > (currentPage - 1) * MAX_NUMBER_EACH_PAGE
+                        && quantity <= currentPage * MAX_NUMBER_EACH_PAGE) {
+                        col++;
                     char chTmp[100];
                     number2Char(i, chTmp);
                     outtextxy(col * 100 + 20, row, chTmp);
+                    }
                 }
                 if (col == numOfCol) {
                     col = -1;
@@ -192,17 +231,32 @@ MENU_SECOND:
                 }
             }
 
+            const int pages = ceil(quantity/ (float)MAX_NUMBER_EACH_PAGE);
             char infoText[] = "Co tat ca ";
-            char quantityChar[100];
-            number2Char(quantity, quantityChar);
-            strcat(infoText, quantityChar);
-            strcat(infoText, " so.");
-
+            char tmpChar[100];
+            number2Char(quantity, tmpChar);
+            strcat(infoText, tmpChar);
+            strcat(infoText, " so. Trang ");
+            number2Char(currentPage, tmpChar);
+            strcat(infoText, tmpChar);
+            strcat(infoText, " / ");
+            number2Char(pages, tmpChar);
+            strcat(infoText, tmpChar);
             setcolor(4);
-            outtextxy(hmaxx - textwidth(quantityChar) / 2, maxy - textheight(quantityChar), quantityChar);
-            choice = getch();
-            if (choice == ESC || choice == ENTER) {
+            outtextxy(hmaxx - textwidth(infoText) / 2, maxy - textheight(infoText), infoText);
+
+        PAGINATION2:
+            keyPress = getch();
+            if (keyPress == ESC || keyPress == ENTER) {
                 goto BOX1;
+            } else if (keyPress == DOWN_ARROW) {
+                currentPage = currentPage >= pages ? 1 : currentPage + 1;
+                goto PAGINATION;
+            } else if (keyPress == UP_ARROW) {
+                currentPage = currentPage <= 1 ? pages : currentPage - 1;
+                goto PAGINATION;
+            } else {
+                goto PAGINATION2;
             }
         }
     }

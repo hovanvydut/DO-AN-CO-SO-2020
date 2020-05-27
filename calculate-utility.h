@@ -27,15 +27,20 @@ int heightNumber(int n) {
 }
 
 // @ return 1 --> read file OK, return 0 --> read file ERROR
-int readDataFromFile(const char path[], int n, int h) {
-    FILE *fileInput = fopen(path, "r");
+int readDataFromFile(const char fileName[], int *n, int *h) {
+    char path[100] = "E:\\DoAn\\DO_AN_CO_SO\\";
 
+    strcat(path, fileName);
+    printf("%s\n", path);
+
+    FILE *fileInput = fopen(path, "r");
+    printf("hello");
     if (fileInput == NULL) {
         return 0;
     }
 
-    fscanf(fileInput, "%d %d", &n, &h);
-
+    fscanf(fileInput, "%d %d", n, h);
+    printf("%d %d", *n, *h);
     fclose(fileInput);
     return 1;
 }
@@ -52,7 +57,11 @@ int writeDataToFile(const char path[], int arr[], int n, int h) {
         if (arr[i] == 0 && heightNumber(i) == h) {
             count++;
             fprintf(fileOutput, "%d\t", i);
+            if (count % 8 == 0) {
+                fprintf(fileOutput, "\n");
+            }
         }
+
     }
     fprintf(fileOutput, "\r\n");
     fprintf(fileOutput, "Co tat ca %d so nguyen to co chieu cao la % trong doan [10, %d]", count, h, n);

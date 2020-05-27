@@ -41,18 +41,26 @@ void showMenu2(int maxx, int hmaxx, int maxy, int hmaxy, int choice, char *menuL
 }
 
 void showBox(int maxx, int hmaxx, int maxy, int hmaxy, int chooseBox, int heightBox, int widthBox, int marginBox) {
-        char txt1[] = "Nhap n: ", txt2[] = "Nhap h: ";
+        char txt0[] = "Nhap ten file: ", txt1[] = "Nhap n: ", txt2[] = "Nhap h: ";
         cleardevice();
-        // Box n
-        chooseBox == 1 ? setcolor(4) : setcolor(3);
-        rectangle(hmaxx - widthBox / 2, hmaxy - (heightBox + marginBox), hmaxx + widthBox, hmaxy - marginBox);
-        // Box h
-        chooseBox == 2 ? setcolor(4) : setcolor(3);
-        rectangle(hmaxx - widthBox / 2, hmaxy + marginBox, hmaxx + widthBox, hmaxy + (heightBox + marginBox));
 
-        setcolor(3);
-        outtextxy(hmaxx - widthBox / 2 - textwidth(txt1), hmaxy - (heightBox + marginBox) + heightBox / 2 - textheight(txt1) / 2, txt1);
-        outtextxy(hmaxx - widthBox / 2 - textwidth(txt1), hmaxy + (heightBox + marginBox) - heightBox / 2 - textheight(txt1) / 2, txt2);
+        if (chooseBox == 0) {
+            setcolor(3);
+            rectangle(hmaxx - widthBox / 2, hmaxy - (heightBox + marginBox), hmaxx + widthBox, hmaxy - marginBox);
+            outtextxy(hmaxx - widthBox / 2 - textwidth(txt0), hmaxy - (heightBox + marginBox) + heightBox / 2 - textheight(txt0) / 2, txt0);
+        } else {
+            // Box n
+            chooseBox == 1 ? setcolor(4) : setcolor(3);
+            rectangle(hmaxx - widthBox / 2, hmaxy - (heightBox + marginBox), hmaxx + widthBox, hmaxy - marginBox);
+
+            // Box h
+            chooseBox == 2 ? setcolor(4) : setcolor(3);
+            rectangle(hmaxx - widthBox / 2, hmaxy + marginBox, hmaxx + widthBox, hmaxy + (heightBox + marginBox));
+
+            setcolor(3);
+            outtextxy(hmaxx - widthBox / 2 - textwidth(txt1), hmaxy - (heightBox + marginBox) + heightBox / 2 - textheight(txt1) / 2, txt1);
+            outtextxy(hmaxx - widthBox / 2 - textwidth(txt1), hmaxy + (heightBox + marginBox) - heightBox / 2 - textheight(txt1) / 2, txt2);
+        }
 
     setcolor(3);
     rectangle(10, 10, maxx - 10, maxy - 10);
