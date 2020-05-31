@@ -105,12 +105,17 @@ INPUT_DATA_FROM_FILE:
                 getch();
                 goto INPUT_DATA_FROM_FILE;
             }
+            route = 1;
             goto EXPORT_DATA;
         }
 
     // Nhap du lieu tu ban phim
     } else if (choice + 1 == 2) {
-    INPUT_DATA_FROM_KEYBOARD:
+INPUT_DATA_FROM_KEYBOARD:
+        it = it2 = 0;
+        for (int i = 0; i < 100; i++) {
+            ch2[i] = ch[i] = '\0';
+        }
         route = 0;
     BOX1:
         // nhap so n
@@ -215,6 +220,7 @@ INPUT_DATA_FROM_FILE:
             char text[] = "Vui long xem ket qua o file ./output.txt";
             outtextxy(hmaxx - textwidth(text) / 2, hmaxy - textheight(text) / 2, text);
             getch();
+            if (route == 1) goto INPUT_DATA_FROM_FILE;
             goto BOX1;
         }
 
