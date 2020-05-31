@@ -113,7 +113,7 @@ INPUT_DATA_FROM_FILE:
     } else if (choice + 1 == 2) {
 INPUT_DATA_FROM_KEYBOARD:
         it = it2 = 0;
-        for (int i = 0; i < 100; i++) {
+        for (i = 0; i < 100; i++) {
             ch2[i] = ch[i] = '\0';
         }
         route = 0;
@@ -204,7 +204,11 @@ INPUT_DATA_FROM_KEYBOARD:
             else if (keyPress == DOWN_ARROW)
                 choice = (choice + 1) % lengthMainMenuList;
             else if (keyPress == ESC) {
-                goto BOX1;
+                if (route == 1) {
+                    goto INPUT_DATA_FROM_FILE;
+                } else {
+                    goto BOX1;
+                }
             }
             char guide4[] = "Dung phim mui ten de di chuyen len xuong, Enter de chon, ESC de quay lui";
             showMenu2(maxx, hmaxx, maxy, hmaxy, choice, menuTmp, lengthMenuTmp, guide4);
@@ -220,8 +224,7 @@ INPUT_DATA_FROM_KEYBOARD:
             char text[] = "Vui long xem ket qua o file ./output.txt";
             outtextxy(hmaxx - textwidth(text) / 2, hmaxy - textheight(text) / 2, text);
             getch();
-            if (route == 1) goto INPUT_DATA_FROM_FILE;
-            goto BOX1;
+            goto EXPORT_DATA;
         }
 
         // Xuat ket qua ra man hinh
@@ -274,11 +277,7 @@ INPUT_DATA_FROM_KEYBOARD:
         PAGINATION2:
             keyPress = getch();
             if (keyPress == ESC || keyPress == ENTER) {
-                if (route == 1) {
-                    goto INPUT_DATA_FROM_FILE;
-                } else {
-                    goto BOX1;
-                }
+                goto EXPORT_DATA;
             } else if (keyPress == DOWN_ARROW) {
                 currentPage = currentPage >= pages ? 1 : currentPage + 1;
                 goto PAGINATION;
