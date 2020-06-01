@@ -214,6 +214,7 @@ INPUT_DATA_FROM_KEYBOARD:
             showMenu2(maxx, hmaxx, maxy, hmaxy, choice, menuTmp, lengthMenuTmp, guide4);
         } while (keyPress != ENTER);
 
+    CACULATE:
         // Thuc hien tinh toan, san nguyen to
         int *arr = (int*)malloc(sizeof(int) * (n + 1));
         Eratosthenes(arr, n);

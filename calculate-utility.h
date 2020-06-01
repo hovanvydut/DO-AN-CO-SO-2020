@@ -51,7 +51,7 @@ int writeDataToFile(const char path[], int arr[], int n, int h) {
     for (i = 0; i < n; i++) {
         if (arr[i] == 0 && heightNumber(i) == h) {
             count++;
-            fprintf(fileOutput, "%d\t", i);
+            fprintf(fileOutput, "%d ", i);
             if (count % 8 == 0) {
                 fprintf(fileOutput, "\n");
             }
