@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1591217515 source:e:\doan\do_an_co_so-102190200\code\console\main.cpp
+	<stdio.h>
+	<stdlib.h>
+	<malloc.h>
+
