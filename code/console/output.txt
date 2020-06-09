@@ -1,0 +1,3 @@
+389 479 569 587 659 677 839 857 
+929 947 983 
+Co tat ca 11 so nguyen to co chieu cao la 20 trong doan [10, 1000]
