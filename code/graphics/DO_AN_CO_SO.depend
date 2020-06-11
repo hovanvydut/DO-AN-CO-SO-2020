@@ -31,3 +31,19 @@
 
 1590545058 e:\doan\do_an_co_so-102190200\code\graphics\myviewfunc.h
 
+1590982248 source:e:\doan\do_an_co_so\code\graphics\main.cpp
+	<stdio.h>
+	<math.h>
+	<graphics.h>
+	"calculate-utility.h"
+	"myConstant.h"
+	<string.h>
+	"myViewFunc.h"
+	<malloc.h>
+
+1591029808 e:\doan\do_an_co_so\code\graphics\calculate-utility.h
+
+1590181291 e:\doan\do_an_co_so\code\graphics\myconstant.h
+
+1590545058 e:\doan\do_an_co_so\code\graphics\myviewfunc.h
+
